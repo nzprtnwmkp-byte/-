@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ARCHI AI — 設計サポート</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">ARCHI <span>AI</span></div>
+    <div class="subtitle">Architecture Design Support</div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <button class="nav active" data-panel="dashboard">⌂ ダッシュボード</button>
+      <button class="nav" data-panel="site">📐 敷地・規模計算</button>
+      <button class="nav" data-panel="rooms">🏠 諸室・面積表</button>
+      <button class="nav" data-panel="concept">💡 コンセプト</button>
+      <button class="nav" data-panel="review">🔍 設計レビュー</button>
+      <button class="nav" data-panel="chat">🤖 AI設計相談</button>
+    </aside>
+
+    <section class="content">
+      <section id="dashboard" class="panel active">
+        <div class="hero">
+          <p class="eyebrow">MY DESIGN ASSISTANT</p>
+          <h1>設計を、もっと速く。</h1>
+          <p>敷地条件・必要諸室・コンセプトを整理して、設計のたたき台を作るための自分専用ツール。</p>
+        </div>
+        <div class="cards">
+          <button class="card" data-go="site"><b>📐 敷地・規模</b><span>建ぺい率・容積率から規模を計算</span></button>
+          <button class="card" data-go="rooms"><b>🏠 面積表</b><span>諸室の面積を合計・整理</span></button>
+          <button class="card" data-go="concept"><b>💡 コンセプト</b><span>条件から設計コンセプトを生成</span></button>
+          <button class="card" data-go="review"><b>🔍 設計レビュー</b><span>プランのチェック項目を整理</span></button>
+        </div>
+      </section>
+
+      <section id="site" class="panel">
+        <h2>📐 敷地・規模計算</h2>
+        <div class="form-grid">
+          <label>敷地面積（㎡）<input id="siteArea" type="number" value="506"></label>
+          <label>建ぺい率（%）<input id="bcr" type="number" value="70"></label>
+          <label>容積率（%）<input id="far" type="number" value="200"></label>
+        </div>
+        <button class="primary" id="calcBtn">計算する</button>
+        <div id="calcResult" class="result"></div>
+      </section>
+
+      <section id="rooms" class="panel">
+        <h2>🏠 諸室・面積表</h2>
+        <div class="room-add">
+          <input id="roomName" placeholder="例：LDK">
+          <input id="roomArea" type="number" placeholder="面積㎡">
+          <button class="primary" id="addRoom">追加</button>
+        </div>
+        <table>
+          <thead><tr><th>室名</th><th>面積</th><th></th></tr></thead>
+          <tbody id="roomTable"></tbody>
+        </table>
+        <div class="total">合計 <strong id="roomTotal">0.0㎡</strong></div>
+      </section>
+
+      <section id="concept" class="panel">
+        <h2>💡 コンセプトメーカー</h2>
+        <div class="form-grid">
+          <label>用途<input id="use" value="グループホーム"></label>
+          <label>利用者<input id="users" value="5〜9人"></label>
+          <label>重視すること<input id="priority" value="地域とのつながり・中庭・緑"></label>
+          <label>雰囲気<input id="mood" value="落ち着いた、自然素材"></label>
+        </div>
+        <button class="primary" id="conceptBtn">コンセプトを作る</button>
+        <div id="conceptResult" class="result"></div>
+      </section>
+
+      <section id="chat" class="panel">
+        <div class="chat-head">
+          <div>
+            <p class="eyebrow">AI DESIGN CONSULTATION</p>
+            <h2>🤖 AI設計相談</h2>
+            <p class="muted">設計条件や悩みを入力すると、設計者目線でアイデアを整理します。</p>
+          </div>
+          <button class="ghost" id="clearChat">クリア</button>
+        </div>
+
+        <div class="quick-prompts">
+          <button data-prompt="この敷地で人が自然に集まる空間を考えて">人が集まる空間</button>
+          <button data-prompt="この計画のゾーニング案を考えて">ゾーニング</button>
+          <button data-prompt="先生にプレゼンするときの設計意図を整理して">設計意図</button>
+          <button data-prompt="この計画で見落としやすい問題点を教えて">問題点チェック</button>
+        </div>
+
+        <div id="chatMessages" class="chat-messages">
+          <div class="message ai"><b>ARCHI AI</b><p>こんにちは！敷地条件、用途、人数、コンセプトなどを教えてください。設計のたたき台を一緒に整理します。</p></div>
+        </div>
+
+        <div class="chat-input">
+          <textarea id="chatInput" rows="3" placeholder="例：506㎡、建ぺい率70%、容積率200%。5〜9人のグループホームで、中庭と地域とのつながりを重視したい。"></textarea>
+          <button class="primary" id="sendChat">送信</button>
+        </div>
+        <p class="chat-note">現在はブラウザ内で動くプロトタイプです。APIキーなしで相談フローを試せます。</p>
+      </section>
+
+      <section id="review" class="panel">
+        <h2>🔍 設計レビュー</h2>
+        <p class="muted">チェックしたい計画条件を選んでください。</p>
+        <div class="checks">
+          <label><input type="checkbox" checked> アプローチ・玄関動線</label>
+          <label><input type="checkbox" checked> 共用空間と個室の距離感</label>
+          <label><input type="checkbox"> 採光・通風</label>
+          <label><input type="checkbox"> バリアフリー</label>
+          <label><input type="checkbox"> 収納・バックヤード</label>
+          <label><input type="checkbox"> 外部空間とのつながり</label>
+        </div>
+        <button class="primary" id="reviewBtn">レビューを作る</button>
+        <div id="reviewResult" class="result"></div>
+      </section>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
